@@ -1,0 +1,69 @@
+import java.util.Scanner;
+
+interface Notificacao {
+    void enviar(String mensagem);
+}
+
+class NotificacaoEmail implements Notificacao {
+    public void enviar(String mensagem) {
+        System.out.println("Enviando e-mail: " + mensagem);
+    }
+}
+
+class NotificacaoSms implements Notificacao {
+    public void enviar(String mensagem) {
+        System.out.println("Enviando SMS: " + mensagem);
+    }
+}
+
+class NotificacaoWhatsApp implements Notificacao {
+    public void enviar(String mensagem) {
+        System.out.println("Enviando WhatsApp: " + mensagem);
+    }
+}
+
+class ServicoNotificacao {
+    public void notificarCliente(Notificacao notificacao, String mensagem) {
+        notificacao.enviar(mensagem);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ServicoNotificacao servico = new ServicoNotificacao();
+
+        System.out.println("Escolha o tipo de notificação:");
+        System.out.println("1 - E-mail");
+        System.out.println("2 - SMS");
+        System.out.println("3 - WhatsApp");
+        System.out.print("Opção: ");
+        int opcao = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Digite a mensagem: ");
+        String mensagem = scanner.nextLine();
+
+        Notificacao notificacao = null;
+
+        switch (opcao) {
+            case 1:
+                notificacao = new NotificacaoEmail();
+                break;
+            case 2:
+                notificacao = new NotificacaoSms();
+                break;
+            case 3:
+                notificacao = new NotificacaoWhatsApp();
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                scanner.close();
+                return;
+        }
+
+        servico.notificarCliente(notificacao, mensagem);
+
+        scanner.close();
+    }
+}
